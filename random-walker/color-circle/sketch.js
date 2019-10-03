@@ -21,16 +21,18 @@ function draw() {
   w.update();
 }
 
-function Walker() {
-  this.xoff = 0
-  this.pos = createVector(...firstPosition);
-  this.path = firstPosition
+class Walker {
+  constructor() {
+    this.xoff = 0
+    this.pos = createVector(...firstPosition);
+    this.path = [firstPosition]
+  }
 
-  this.display = function() {
+  display() {
     ellipse(this.pos.x, this.pos.y, ellipseWidth, ellipseHeight);
   };
 
-  this.getNewPosition = function() {
+  getNewPosition() {
     const axis = random([0, 1])
     const direction = random([-1, 1])
     const params = [this.pos.x, this.pos.y]
@@ -38,11 +40,11 @@ function Walker() {
     return params;
   }
 
-  this.checkPositionValid = function(position) {
+  checkPositionValid(position) {
     return position[0] > 0 && position[0] < width && position[1] > 0 && position[1] < height && !this.path.find(item => item[0] === position[0] && item[1] === position[1])
   }
 
-  this.update = function() {
+  update() {
     const params = this.getNewPosition()
     if (!this.checkPositionValid(params)) {
       return
