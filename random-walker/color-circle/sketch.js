@@ -21,6 +21,8 @@ function draw() {
 
 function Walker() {
   this.xoff = 0
+  this.axis = random([0, 1])
+  this.direction = random([-1, 1])
   this.pos = createVector(...firstPosition);
   this.path = firstPosition
 
@@ -29,20 +31,28 @@ function Walker() {
   };
 
   this.getNewPosition = function() {
-    const axis = random([0, 1])
     const params = [this.pos.x, this.pos.y]
-    params[axis] = axis === 0 ? (this.pos.x + ellipseWidth) % width : (this.pos.y + ellipseHeight) % height
-    return params;
+
+    params[this.axis] = this.axis === 0 ? this.pos.x + (ellipseWidth * this.direction) : this.pos.y + (ellipseHeight * this.direction)
+    return params
   }
 
-  this.checkPositionValid = function(position) {
-    return !this.path.find(item => item[0] === position[0] && item[1] === position[1])
+  this.checkPositionValid = function (position) {
+    return !(position[0] < 0 || position[1] < 0 || position[0] > width || position[1] > height || this.path.find(item => item[0] === position[0] && item[1] === position[1]))
   }
 
   this.update = function() {
-    const params = this.getNewPosition()
+    let params = this.getNewPosition()
     if (!this.checkPositionValid(params)) {
-      return
+      this.direction = this.direction * -1;
+      params = this.getNewPosition();
+      if (!this.checkPositionValid(params)) {
+        this.axis = this.axis === 0 ? 1 : 0;
+        params = this.getNewPosition();
+        if (!this.checkPositionValid(params)) {
+          return
+        }
+      }
     }
 
     this.xoff += 0.05;
@@ -51,5 +61,7 @@ function Walker() {
     this.path.push(params)
     const nextPosition = createVector(...params)
     this.pos = nextPosition
+    this.axis = random([0, 1])
+    this.direction = random([-1, 1])
   }
 }
