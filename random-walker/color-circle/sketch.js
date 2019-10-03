@@ -3,6 +3,7 @@ const ellipseWidth = 48;
 const ellipseHeight = 48;
 const firstPosition = [ellipseWidth / 2, ellipseHeight / 2];
 let currentHue;
+const filename = 'randomWalkerCirclev1.1'
 
 function setup() {
   canvas = createCanvas(ellipseWidth * 18, ellipseWidth * 18);
