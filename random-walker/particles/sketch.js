@@ -1,5 +1,6 @@
-const particlesQty = 40
+const particlesQty = 50
 const particleSize = 10
+const minimalDistance = 70
 let particles;
 
 function setup() {
@@ -32,7 +33,7 @@ class Particle {
   constructor(x, y, i) {
     this.pos = createVector(x, y)
     this.vel = createVector(random([0.2, -0.2]), random([0.2, -0.2]));
-    this.closest;
+    this.closests = [];
     this.id = i
   }
 
@@ -50,13 +51,11 @@ class Particle {
         return
       }
 
-      if (!this.closest) {
-        this.closest = item
-        return
+      if (this.pos.dist(item.pos) <= minimalDistance) {
+        this.closests = this.closests.filter(c => this.pos.dist(c.pos) > minimalDistance)
+        this.closests.push(item)
       } else {
-        if (this.pos.dist(item.pos) < this.pos.dist(this.closest.pos)) {
-          this.closest = item
-        }
+        this.closests = this.closests.filter(c => c.id !== item.id)
       }
     })
   }
@@ -67,9 +66,9 @@ class Particle {
   }
 
   connect() {
-    if (this.closest) {
-      stroke(180)
-      line(this.pos.x, this.pos.y, this.closest.pos.x, this.closest.pos.y)
-    }
+    stroke(180)
+    this.closests.forEach(item => (
+      line(this.pos.x, this.pos.y, item.pos.x, item.pos.y)
+    ))
   }
 }
