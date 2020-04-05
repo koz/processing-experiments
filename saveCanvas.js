@@ -19,4 +19,13 @@ function keyPressed() {
     setup();
     draw();
   }
+
+  /* 'ctrl' key */
+  if (keyCode === 17) {
+    const date = new Date()
+    const dateStr = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}@${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}`
+
+    const filename = [titleName, versionStr, dateStr].filter(Boolean).join('-')
+    save(`${filename}.svg`)
+  }
 }
