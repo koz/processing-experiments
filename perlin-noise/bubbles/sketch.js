@@ -1,13 +1,16 @@
 let circles = []
 let xOff = 0.01;
 const border = 50;
+const circleMaxSize = 50
+const circleMinSize = 3
+const fillChance = 0.2
+const fillMaxSize = 10;
 
 function setup() {
   createCanvas(800, 750);
   background(255);
-  noFill();
   circles = [
-    new Circle(width / 2, height / 2, 30)
+    new Circle(width / 2, height / 2, getDiameter())
   ]
 }
 
@@ -19,21 +22,28 @@ function draw() {
   })
 }
 
+const getDiameter = () => map(noise(xOff), 0, 1, 3, circleMaxSize)
 
 class Circle {
   constructor(x, y, d) {
     this.x = x;
     this.y = y;
     this.d = d;
+    this.fill = random() < fillChance && this.d < fillMaxSize
   }
 
   draw() {
+    push()
+    if (this.fill) {
+      fill(0)
+    }
     circle(this.x, this.y, this.d)
+    pop()
   }
 
   seed() {
     this.seeded = true
-    const newDiameter = map(noise(xOff), 0, 1, 3, 50)
+    const newDiameter = getDiameter()
     const newX = map(random(), 0, 1, border + newDiameter / 2, width - border - newDiameter / 2)
     const newY = map(random(), 0, 1, border + newDiameter / 2, height - border - newDiameter / 2)
     const colision = circles.find(c => isColliding({
