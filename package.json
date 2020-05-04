@@ -1,0 +1,23 @@
+{
+  "name": "processing-experiments",
+  "version": "1.0.0",
+  "description": "My personal processing experiments repo to gather canvas and screenshots",
+  "main": "index.js",
+  "scripts": {
+    "create": "node ./index.js create"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koz/processing-experiments.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koz/processing-experiments/issues"
+  },
+  "homepage": "https://github.com/koz/processing-experiments#readme",
+  "dependencies": {
+    "commander": "^5.1.0",
+    "inquirer": "^7.1.0"
+  }
+}
