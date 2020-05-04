@@ -7,7 +7,7 @@ const fillChance = 0.2
 const fillMaxSize = 10;
 
 function setup() {
-  createCanvas(800, 750);
+  createCanvas(790, 1120);
   background(255);
   circles = [
     new Circle(width / 2, height / 2, getDiameter())
